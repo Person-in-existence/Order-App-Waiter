@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FirstFragment">
+
+    <Button
+        android:id="@+id/button_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/First_Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Orders"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/customerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:ems="10"
+        android:hint="Enter Customer Name"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/nameTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="54dp"
+        android:text="Enter Customer Name:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/increaseOne"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="149dp"
+        android:text="+"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/increaseTwo"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="43dp"
+        android:text="+"
+        app:layout_constraintEnd_toEndOf="@+id/increaseOne"
+        app:layout_constraintStart_toStartOf="@+id/increaseOne"
+        app:layout_constraintTop_toTopOf="@+id/increaseOne" />
+
+    <Button
+        android:id="@+id/increaseThree"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="43dp"
+        android:text="+"
+        app:layout_constraintEnd_toEndOf="@+id/increaseTwo"
+        app:layout_constraintStart_toStartOf="@+id/increaseTwo"
+        app:layout_constraintTop_toTopOf="@+id/increaseTwo" />
+
+    <Button
+        android:id="@+id/increaseFour"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="42dp"
+        android:text="+"
+        app:layout_constraintEnd_toEndOf="@+id/increaseThree"
+        app:layout_constraintStart_toStartOf="@+id/increaseThree"
+        app:layout_constraintTop_toTopOf="@+id/increaseThree" />
+
+    <Button
+        android:id="@+id/increaseFive"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="1dp"
+        android:text="+"
+        app:layout_constraintEnd_toEndOf="@+id/increaseFour"
+        app:layout_constraintStart_toStartOf="@+id/increaseFour"
+        app:layout_constraintTop_toBottomOf="@+id/increaseFour" />
+
+    <Button
+        android:id="@+id/increaseSix"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="+"
+        app:layout_constraintEnd_toEndOf="@+id/increaseFive"
+        app:layout_constraintStart_toStartOf="@+id/increaseFive"
+        app:layout_constraintTop_toBottomOf="@+id/increaseFive" />
+
+    <Button
+        android:id="@+id/increaseSeven"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="47dp"
+        android:text="+"
+        app:layout_constraintEnd_toEndOf="@+id/increaseSix"
+        app:layout_constraintStart_toStartOf="@+id/increaseSix"
+        app:layout_constraintTop_toTopOf="@+id/increaseSix" />
+
+    <Button
+        android:id="@+id/increaseEight"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="47dp"
+        android:text="+"
+        app:layout_constraintEnd_toEndOf="@+id/increaseSeven"
+        app:layout_constraintStart_toStartOf="@+id/increaseSeven"
+        app:layout_constraintTop_toTopOf="@+id/increaseSeven" />
+
+    <Button
+        android:id="@+id/decreaseOne"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="5dp"
+        android:text="-"
+        app:layout_constraintBaseline_toBaselineOf="@+id/increaseOne"
+        app:layout_constraintStart_toEndOf="@+id/increaseOne" />
+
+    <Button
+        android:id="@+id/decreaseTwo"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="-"
+        app:layout_constraintBaseline_toBaselineOf="@+id/increaseTwo"
+        app:layout_constraintStart_toStartOf="@+id/decreaseOne" />
+
+    <Button
+        android:id="@+id/decreaseThree"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="-"
+        app:layout_constraintStart_toStartOf="@+id/decreaseTwo"
+        app:layout_constraintTop_toTopOf="@+id/increaseThree" />
+
+    <Button
+        android:id="@+id/decreaseFour"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="-"
+        app:layout_constraintBottom_toBottomOf="@+id/increaseFour"
+        app:layout_constraintEnd_toEndOf="@+id/decreaseThree"
+        app:layout_constraintStart_toStartOf="@+id/decreaseThree" />
+
+    <Button
+        android:id="@+id/decreaseFive"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="2dp"
+        android:text="-"
+        app:layout_constraintStart_toStartOf="@+id/decreaseFour"
+        app:layout_constraintTop_toBottomOf="@+id/decreaseFour" />
+
+    <Button
+        android:id="@+id/decreaseSix"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="-"
+        app:layout_constraintStart_toStartOf="@+id/decreaseFive"
+        app:layout_constraintTop_toBottomOf="@+id/decreaseFive" />
+
+    <Button
+        android:id="@+id/decreaseSeven"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="-"
+        app:layout_constraintBottom_toBottomOf="@+id/increaseSeven"
+        app:layout_constraintStart_toStartOf="@+id/decreaseSix" />
+
+    <Button
+        android:id="@+id/decreaseEight"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="-"
+        app:layout_constraintBottom_toBottomOf="@+id/increaseEight"
+        app:layout_constraintStart_toStartOf="@+id/decreaseSeven" />
+
+    <TextView
+        android:id="@+id/orderedOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintBaseline_toBaselineOf="@+id/decreaseOne"
+        app:layout_constraintStart_toStartOf="@+id/titleCurrent" />
+
+    <TextView
+        android:id="@+id/availableOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
+        android:text="0"
+        app:layout_constraintStart_toStartOf="@+id/stockTitle"
+        app:layout_constraintTop_toBottomOf="@+id/stockTitle" />
+
+    <TextView
+        android:id="@+id/stockTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Available:"
+        app:layout_constraintStart_toEndOf="@+id/titleCurrent"
+        app:layout_constraintTop_toTopOf="@+id/titleCurrent" />
+
+    <TextView
+        android:id="@+id/titleCurrent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="2dp"
+        android:text="Ordered:"
+        app:layout_constraintStart_toEndOf="@+id/decreaseOne"
+        app:layout_constraintTop_toBottomOf="@+id/customerName" />
+
+    <TextView
+        android:id="@+id/titleName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="12dp"
+        android:text="Item:"
+        app:layout_constraintBottom_toTopOf="@+id/itemOne"
+        app:layout_constraintStart_toEndOf="@+id/stockTitle"
+        app:layout_constraintTop_toTopOf="@+id/titleCurrent" />
+
+    <TextView
+        android:id="@+id/itemOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/availableOne"
+        app:layout_constraintStart_toStartOf="@+id/titleName" />
+
+    <TextView
+        android:id="@+id/orderedTwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="0"
+        app:layout_constraintBaseline_toBaselineOf="@+id/decreaseTwo"
+        app:layout_constraintStart_toEndOf="@+id/decreaseTwo" />
+
+    <TextView
+        android:id="@+id/orderedThree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:layout_marginBottom="14dp"
+        android:text="0"
+        app:layout_constraintBottom_toBottomOf="@+id/decreaseThree"
+        app:layout_constraintStart_toEndOf="@+id/decreaseThree" />
+
+    <TextView
+        android:id="@+id/orderedFour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="0"
+        app:layout_constraintBaseline_toBaselineOf="@+id/decreaseFour"
+        app:layout_constraintStart_toEndOf="@+id/decreaseFour" />
+
+    <TextView
+        android:id="@+id/orderedFive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:text="0"
+        app:layout_constraintBaseline_toBaselineOf="@+id/decreaseFive"
+        app:layout_constraintStart_toEndOf="@+id/decreaseFive" />
+
+    <TextView
+        android:id="@+id/orderedSix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:text="0"
+        app:layout_constraintBaseline_toBaselineOf="@+id/decreaseSix"
+        app:layout_constraintStart_toEndOf="@+id/decreaseSix" />
+
+    <TextView
+        android:id="@+id/orderedSeven"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="0"
+        app:layout_constraintBaseline_toBaselineOf="@+id/decreaseSeven"
+        app:layout_constraintStart_toEndOf="@+id/decreaseSeven" />
+
+    <TextView
+        android:id="@+id/availableTwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:text="0"
+        app:layout_constraintBottom_toBottomOf="@+id/orderedTwo"
+        app:layout_constraintStart_toStartOf="@+id/availableOne" />
+
+    <TextView
+        android:id="@+id/itemTwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/availableTwo"
+        app:layout_constraintStart_toStartOf="@+id/itemOne" />
+
+    <TextView
+        android:id="@+id/availableThree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintBottom_toBottomOf="@+id/orderedThree"
+        app:layout_constraintStart_toStartOf="@+id/availableTwo" />
+
+    <TextView
+        android:id="@+id/itemThree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/availableThree"
+        app:layout_constraintStart_toStartOf="@+id/itemTwo" />
+
+    <TextView
+        android:id="@+id/availableFour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintBaseline_toBaselineOf="@+id/orderedFour"
+        app:layout_constraintStart_toStartOf="@+id/availableThree" />
+
+    <TextView
+        android:id="@+id/itemFour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/availableFour"
+        app:layout_constraintStart_toStartOf="@+id/itemThree" />
+
+    <TextView
+        android:id="@+id/availableFive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintBottom_toBottomOf="@+id/orderedFive"
+        app:layout_constraintStart_toStartOf="@+id/availableFour" />
+
+    <TextView
+        android:id="@+id/itemFive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/availableFive"
+        app:layout_constraintStart_toStartOf="@+id/itemFour" />
+
+    <TextView
+        android:id="@+id/availableSix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintBaseline_toBaselineOf="@+id/orderedSix"
+        app:layout_constraintStart_toStartOf="@+id/availableFive" />
+
+    <TextView
+        android:id="@+id/itemSix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/availableSix"
+        app:layout_constraintStart_toStartOf="@+id/itemFive" />
+
+    <TextView
+        android:id="@+id/availableSeven"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="0"
+        app:layout_constraintStart_toStartOf="@+id/availableSix"
+        app:layout_constraintTop_toBottomOf="@+id/availableSix" />
+
+    <TextView
+        android:id="@+id/itemSeven"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/availableSeven"
+        app:layout_constraintStart_toStartOf="@+id/itemSix" />
+
+    <TextView
+        android:id="@+id/orderedEight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="0"
+        app:layout_constraintBaseline_toBaselineOf="@+id/decreaseEight"
+        app:layout_constraintStart_toEndOf="@+id/decreaseEight" />
+
+    <TextView
+        android:id="@+id/availableEight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="0"
+        app:layout_constraintStart_toStartOf="@+id/availableSeven"
+        app:layout_constraintTop_toBottomOf="@+id/availableSeven" />
+
+    <TextView
+        android:id="@+id/itemEight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/availableEight"
+        app:layout_constraintStart_toStartOf="@+id/itemSeven" />
+
+    <Button
+        android:id="@+id/sendOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/send_order"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/decreaseEight" />
+
+    <Switch
+        android:id="@+id/mergeMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:minHeight="48dp"
+        android:text="Merge Mode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sendOrder" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
