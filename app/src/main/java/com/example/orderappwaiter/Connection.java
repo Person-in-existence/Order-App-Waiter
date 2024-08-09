@@ -186,6 +186,7 @@ public class Connection { // TODO: IMPLEMENT IN PROJECT
                 boolean success = readBoolean(in);
                 if (success) {
                     idempotencyToken++;
+                    previousSuccess = true;
                     return true;
                 } // If this is expanded, an else clause, with a continue statement, must be added. It is omitted as this is the end of the loop.
 
@@ -196,6 +197,8 @@ public class Connection { // TODO: IMPLEMENT IN PROJECT
             }
         }
         // If it was unsuccessful, return false and do not update the idempotency token. Log the previous order in this class. This means that if the server
+        previousSuccess = false;
+        previousOrder = order;
         return false;
     }
     public static String getIPAddress() {
