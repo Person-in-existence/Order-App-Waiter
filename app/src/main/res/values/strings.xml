@@ -11,5 +11,6 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="send_order">Send Order</string>
     <string name="incompatible_client_server_version">This version of the app is incompatible with the server\'s version. Please update both devices to the latest version of the app.</string>
-    <string name="network_error">An error occurred. Please try again. If the issue persists, try moving this device or the kitchen device closer to a wireless access point.</string>
+    <string name="network_error">An error occurred. Please try again. If the issue persists, try moving this device or the kitchen device closer to a wireless access point, or checking for an updated version of the app.</string>
+    <string name="connection_error">The device was unable to connect to the specified server. Please check that the join code is correct, and that both devices are on the same network.</string>
 </resources>

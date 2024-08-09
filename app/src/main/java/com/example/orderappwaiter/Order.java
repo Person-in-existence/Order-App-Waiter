@@ -5,6 +5,10 @@ import java.util.ArrayList;
 public class Order {
     public ArrayList<Integer> orders;
     public String name;
+    public Order(ArrayList<Integer> orders, String name) {
+        this.orders = orders;
+        this.name = name;
+    }
     public boolean setOrders(ArrayList<Integer> ordersIn) {
         if (ordersIn.size() == 8) {
             orders = ordersIn;

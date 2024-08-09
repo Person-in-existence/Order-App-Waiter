@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Connection {
+public class Connection { // TODO: IMPLEMENT IN PROJECT
     public static final short TIMEOUT = 1000; // one second (ms)
     public static final short NETWORK_VERSION_NUMBER = 1;
     public MainActivity activity;
@@ -108,6 +108,8 @@ public class Connection {
                 Log.e("OrderAppWaiter Networking", "An error occurred in the getServer() method. " + Arrays.toString(e.getStackTrace()));
             }
         }
+        Snackbar.make(activity.findViewById(android.R.id.content), R.string.connection_error, Snackbar.LENGTH_LONG)
+                .setAction("Error", null).show();
         return null;
     }
     public boolean sendOrder(Order order) {
@@ -185,7 +187,7 @@ public class Connection {
                 if (success) {
                     idempotencyToken++;
                     return true;
-                }
+                } // If this is expanded, an else clause, with a continue statement, must be added. It is omitted as this is the end of the loop.
 
 
             } catch (IOException e) {

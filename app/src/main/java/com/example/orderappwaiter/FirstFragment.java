@@ -27,7 +27,6 @@ public class FirstFragment extends Fragment {
     public TextView[] orderListItems;
     public TextView[] availableListItems;
     public TextView[] itemListItems;
-    public boolean second = false;
 
     @Override
     public View onCreateView(
@@ -246,32 +245,17 @@ public class FirstFragment extends Fragment {
             }
         });
         binding.sendOrder.setOnClickListener(view19 -> {
-            Sender sender = new Sender();
-            sender.serverID = activity.serverID;
-            sender.name = String.valueOf(binding.customerName.getText());
-            sender.orders = orderList;
-            boolean merger = binding.mergeMode.isChecked();
-            if (merger) {
-                sender.type = 'M';
-            }
-            Thread sendThread = new Thread(sender);
-            sendThread.start();
-            try {
-                sendThread.join(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if (sender.success) {
-                Snackbar.make(view, "Order success!", Snackbar.LENGTH_LONG)
-                        .setAction("Connected", null).show();
-                clearUi();
-            }
+            new Thread(() ->{
+                assert (orderList.size() == 8);
+                Order order = new Order(orderList, String.valueOf(binding.customerName.getText()));
+                boolean success = activity.connection.sendOrder(order);
+                if (success) {
+                    activity.runOnUiThread(()->{Snackbar.make(view, "Order success!", Snackbar.LENGTH_LONG).show();clearUi();});
+                } else {
+                    activity.runOnUiThread(()->{Snackbar.make(view, "Sending order failed.", Snackbar.LENGTH_LONG).show();});
+                }
+            }).start();
         });
-        if (second) {
-            activity.setFragment(this);
-        } else {
-            second = true;
-        }
 
     }
 
@@ -304,10 +288,10 @@ public class FirstFragment extends Fragment {
         binding.availableEight.setText(String.valueOf(availableList.get(7)));
     }
     public void clearUi() {
+        binding.customerName.setText("");
         for (int i = 0; i < 8; i++) {
             orderList.set(i, 0);
             orderListItems[i].setText("0");
-            binding.customerName.setText("");
         }
     }
 }
