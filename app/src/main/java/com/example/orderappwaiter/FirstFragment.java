@@ -73,83 +73,97 @@ public class FirstFragment extends Fragment {
         // Sets the listeners for buttons
         // fix for null
         increaseOne.setOnClickListener(view19 -> {
-            if (availableList.get(0) > 0) {
-                orderList.set(0, orderList.get(0) + 1);
-                orderListItems[0].setText(String.valueOf(orderList.get(0)));
-                availableList.set(0, availableList.get(0)-1);
-                activity.availableList.set(0, availableList.get(0));
-                availableListItems[0].setText(String.valueOf(availableList.get(0)));
+            if (!availableList.isEmpty()) {
+                if (availableList.get(0) > 0) {
+                    orderList.set(0, orderList.get(0) + 1);
+                    orderListItems[0].setText(String.valueOf(orderList.get(0)));
+                    availableList.set(0, availableList.get(0) - 1);
+                    activity.availableList.set(0, availableList.get(0));
+                    availableListItems[0].setText(String.valueOf(availableList.get(0)));
+                }
             }
         });
         increaseTwo.setOnClickListener(view110 -> {
-            if (availableList.get(1) > 0) {
-                orderList.set(1, orderList.get(1) + 1);
-                binding.orderedTwo.setText(String.valueOf(orderList.get(1)));
-                availableList.set(1, availableList.get(1)-1);
-                activity.availableList.set(1, availableList.get(1));
-                availableListItems[1].setText(String.valueOf(availableList.get(1)));
+            if (availableList.size() > 1) {
+                if (availableList.get(1) > 0) {
+                    orderList.set(1, orderList.get(1) + 1);
+                    binding.orderedTwo.setText(String.valueOf(orderList.get(1)));
+                    availableList.set(1, availableList.get(1) - 1);
+                    activity.availableList.set(1, availableList.get(1));
+                    availableListItems[1].setText(String.valueOf(availableList.get(1)));
+                }
             }
         });
         increaseThree.setOnClickListener(view111 -> {
             int x = 2;
-            if (availableList.get(x) > 0) {
-                orderList.set(x, orderList.get(x) + 1);
-                orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                availableList.set(x, availableList.get(x)-1);
-                activity.availableList.set(x, availableList.get(x));
-                availableListItems[x].setText(String.valueOf(availableList.get(x)));
-
+            if (availableList.size() > x) {
+                if (availableList.get(x) > 0) {
+                    orderList.set(x, orderList.get(x) + 1);
+                    orderListItems[x].setText(String.valueOf(orderList.get(x)));
+                    availableList.set(x, availableList.get(x) - 1);
+                    activity.availableList.set(x, availableList.get(x));
+                    availableListItems[x].setText(String.valueOf(availableList.get(x)));
+                }
             }
         });
         increaseFour.setOnClickListener(view112 -> {
             int x = 3;
-            if (availableList.get(x) > 0) {
-                orderList.set(x, orderList.get(x) + 1);
-                orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                availableList.set(x, availableList.get(x)-1);
-                activity.availableList.set(x, availableList.get(x));
-                availableListItems[x].setText(String.valueOf(availableList.get(x)));
+            if (availableList.size() > x) {
+                if (availableList.get(x) > 0) {
+                    orderList.set(x, orderList.get(x) + 1);
+                    orderListItems[x].setText(String.valueOf(orderList.get(x)));
+                    availableList.set(x, availableList.get(x) - 1);
+                    activity.availableList.set(x, availableList.get(x));
+                    availableListItems[x].setText(String.valueOf(availableList.get(x)));
+                }
             }
         });
         increaseFive.setOnClickListener(view113 -> {
             int x = 4;
-            if (availableList.get(x) > 0) {
-                orderList.set(x, orderList.get(x) + 1);
-                orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                availableList.set(x, availableList.get(x)-1);
-                activity.availableList.set(x, availableList.get(x));
-                availableListItems[x].setText(String.valueOf(availableList.get(x)));
-
+            if (availableList.size() > x) {
+                if (availableList.get(x) > 0) {
+                    orderList.set(x, orderList.get(x) + 1);
+                    orderListItems[x].setText(String.valueOf(orderList.get(x)));
+                    availableList.set(x, availableList.get(x) - 1);
+                    activity.availableList.set(x, availableList.get(x));
+                    availableListItems[x].setText(String.valueOf(availableList.get(x)));
+                }
             }
         });
         increaseSix.setOnClickListener(view114 -> {
             int x = 5;
-            if (availableList.get(x) > 0) {
-                orderList.set(x, orderList.get(x) + 1);
-                orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                availableList.set(x, availableList.get(x)-1);
-                activity.availableList.set(x, availableList.get(x));
-                availableListItems[x].setText(String.valueOf(availableList.get(x)));
+            if (availableList.size() > x) {
+                if (availableList.get(x) > 0) {
+                    orderList.set(x, orderList.get(x) + 1);
+                    orderListItems[x].setText(String.valueOf(orderList.get(x)));
+                    availableList.set(x, availableList.get(x) - 1);
+                    activity.availableList.set(x, availableList.get(x));
+                    availableListItems[x].setText(String.valueOf(availableList.get(x)));
+                }
             }
         });
         increaseSeven.setOnClickListener(view115 -> {
             int x = 6;
-            if (availableList.get(x) > 0) {
-                orderList.set(x, orderList.get(x) + 1);
-                orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                availableList.set(x, availableList.get(x)-1);
-                activity.availableList.set(x, availableList.get(x));
-                availableListItems[x].setText(String.valueOf(availableList.get(x)));
+            if (availableList.size() > x) {
+                if (availableList.get(x) > 0) {
+                    orderList.set(x, orderList.get(x) + 1);
+                    orderListItems[x].setText(String.valueOf(orderList.get(x)));
+                    availableList.set(x, availableList.get(x) - 1);
+                    activity.availableList.set(x, availableList.get(x));
+                    availableListItems[x].setText(String.valueOf(availableList.get(x)));
+                }
             }
         });
         increaseEight.setOnClickListener(view116 -> {
             int x = 7;
-            if (availableList.get(x) > 0) {
-                orderList.set(x, orderList.get(x) + 1);
-                orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                availableList.set(x, availableList.get(x)-1);
-                activity.availableList.set(x, availableList.get(x));
-                availableListItems[x].setText(String.valueOf(availableList.get(x)));
+            if (availableList.size() > x) {
+                if (availableList.get(x) > 0) {
+                    orderList.set(x, orderList.get(x) + 1);
+                    orderListItems[x].setText(String.valueOf(orderList.get(x)));
+                    availableList.set(x, availableList.get(x) - 1);
+                    activity.availableList.set(x, availableList.get(x));
+                    availableListItems[x].setText(String.valueOf(availableList.get(x)));
+                }
             }
         });
 
