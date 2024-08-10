@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+
 public class Connection { // TODO: IMPLEMENT IN PROJECT
     public static final short TIMEOUT = 1000; // one second (ms)
     public static final short NETWORK_VERSION_NUMBER = 1;
@@ -35,6 +36,7 @@ public class Connection { // TODO: IMPLEMENT IN PROJECT
         String[] bits = ip.split("\\.");
         serverIP = bits[0] + "." + bits[1] + "." + bits[2] + "." + serverID;
         socket = new Socket(serverIP, 65433);
+        socket.setSoTimeout(TIMEOUT);
 
     }
     public ItemData getData() {
@@ -59,7 +61,9 @@ public class Connection { // TODO: IMPLEMENT IN PROJECT
 
                 // Before all reads, wait on in having data to read, to make sure we don't reach the end of the stream
                 // Check version number == 0. If not, show an error to the client
+                System.out.println("Connection62");
                 short versionNumber = readShort(in);
+                System.out.println("Connection64");
                 if (versionNumber != NETWORK_VERSION_NUMBER) {
                     if (time < numTries - 1) {
                         safeWait(TIMEOUT);
@@ -72,7 +76,7 @@ public class Connection { // TODO: IMPLEMENT IN PROJECT
                         break;
                     }
                 }
-
+                System.err.println("Connection 75");
                 // Check packet type is 2
                 short packetType = readShort(in);
                 if (packetType != 2) {
@@ -110,6 +114,7 @@ public class Connection { // TODO: IMPLEMENT IN PROJECT
         }
         Snackbar.make(activity.findViewById(android.R.id.content), R.string.connection_error, Snackbar.LENGTH_LONG)
                 .setAction("Error", null).show();
+        System.err.println("Connection 113");
         return null;
     }
     public boolean sendOrder(Order order) {
@@ -159,6 +164,8 @@ public class Connection { // TODO: IMPLEMENT IN PROJECT
                 waitAvailable(in);
                 // Version Number
                 short versionNumber = readShort(in);
+
+
                 if (versionNumber != NETWORK_VERSION_NUMBER) {
                     safeWait(TIMEOUT);
                     // Clear the input stream, as it is probably corrupted or out of phase
@@ -250,17 +257,26 @@ public class Connection { // TODO: IMPLEMENT IN PROJECT
             Log.e("OrderAppWaiter Networking", "Wait I/O Exception");
         }
     }
+    // FAIL
     public short readShort(DataInputStream in) throws IOException {
+        System.out.println("Connection260");
         waitAvailable(in);
+        System.out.println("Connection262");
         short tries = 0;
+        System.out.println("Connection264");
         while (tries < 10) {
             try {
-                return in.readShort();
-            } catch (IOException e) {
+                return in.readShort(); // Blocks.
+            } catch (Exception e) {
+                System.out.println("Connection268");
+                e.printStackTrace();
+                safeWait(10); // TEST TODO: REMOVE
+                System.out.println("Connection270");
                 Log.e("OrderAppWaiter Networking", "reading short failed " + Arrays.toString(e.getStackTrace()));
                 tries++;
             }
         }
+        System.out.println("CONNECTION273");
         throw new IOException();
     }
     public int readInt(DataInputStream in) throws IOException {
@@ -355,8 +371,9 @@ public class Connection { // TODO: IMPLEMENT IN PROJECT
     }
     public void safeWait(int ms) {
         try {
-            wait(ms);
-        } catch (InterruptedException e) {
+            System.out.println("Connection368");
+            Thread.sleep(ms);
+        } catch (Exception e) {
             Log.e("OrderAppWaiter Networking", "Wait fail " + Arrays.toString(e.getStackTrace()));
         }
     }

@@ -37,10 +37,13 @@ public class SecondFragment extends Fragment {
         binding.connect.setOnClickListener(view2-> {
             binding.progressBar.setAlpha(1);
             activity = (MainActivity) requireActivity();
-            activity.newConnection(String.valueOf(binding.serverId.getText()));
+            activity.newConnection(String.valueOf(binding.serverId.getText()), this);
         });
     }
 
+    public void hideProgressBar() {
+        binding.progressBar.setAlpha(0);
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();

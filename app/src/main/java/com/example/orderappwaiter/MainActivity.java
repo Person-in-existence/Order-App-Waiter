@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public void newConnection(String newServerID) {
+    public void newConnection(String newServerID, SecondFragment secondFragment) {
         new Thread(()-> {
             try {
                 if (Objects.nonNull(connection)) {
@@ -107,10 +107,23 @@ public class MainActivity extends AppCompatActivity {
                 // Get the data
                 ItemData data = connection.getData();
                 runOnUiThread(()->{
-                    setItemData(data);
+                    if (secondFragment != null) {
+                        secondFragment.hideProgressBar();
+                    }
+                    if (data != null) {
+                        Snackbar.make(findViewById(android.R.id.content), "Connection Success!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        setItemData(data);
+                    } else {
+                        Snackbar.make(findViewById(android.R.id.content), "Connection Failed. Try checking the other device is online, and on the same network, as this device.", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    }
                 });
             } catch (Exception e) {
                 Log.e("OrderAppWaiter", "newConnection() procedure failed: " + Arrays.toString(e.getStackTrace()));
+                Snackbar.make(findViewById(android.R.id.content), "Connection Failed. Try checking the other device is online, and on the same network, as this device.", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                if (secondFragment != null) {
+                    secondFragment.hideProgressBar();
+                }
             }
         }).start();
     }
