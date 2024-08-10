@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class Connection { // TODO: IMPLEMENT IN PROJECT
+public class Connection {
     public static final short TIMEOUT = 1000; // one second (ms)
     public static final short NETWORK_VERSION_NUMBER = 1;
     public MainActivity activity;
@@ -268,15 +268,11 @@ public class Connection { // TODO: IMPLEMENT IN PROJECT
             try {
                 return in.readShort(); // Blocks.
             } catch (Exception e) {
-                System.out.println("Connection268");
-                e.printStackTrace();
-                safeWait(10); // TEST TODO: REMOVE
-                System.out.println("Connection270");
+                safeWait(10);
                 Log.e("OrderAppWaiter Networking", "reading short failed " + Arrays.toString(e.getStackTrace()));
                 tries++;
             }
         }
-        System.out.println("CONNECTION273");
         throw new IOException();
     }
     public int readInt(DataInputStream in) throws IOException {
