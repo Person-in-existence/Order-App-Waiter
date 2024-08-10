@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
+@Deprecated
 public class NetworkingNewConnect extends Thread {
     public String currentIP = "";
     public ArrayList[] full;

@@ -36,22 +36,14 @@ public class SecondFragment extends Fragment {
                 .navigate(R.id.action_SecondFragment_to_FirstFragment));
         binding.connect.setOnClickListener(view2-> {
             binding.progressBar.setAlpha(1);
-            activity = (MainActivity)getActivity();
-            assert activity != null;
-            ArrayList[] output = activity.newConnection(String.valueOf(binding.serverId.getText()));
-            if (output == null) {
-                binding.progressBar.setAlpha(0);
-                Snackbar.make(view2, "An error occurred. Check that the other device is online on the same network as you and try again. See the log for full details.", Snackbar.LENGTH_LONG)
-                        .setAction("Error", null).show();
-            }
-            else if (output.length == 2) {
-                binding.progressBar.setAlpha(0);
-                Snackbar.make(view2, "Connection success!", Snackbar.LENGTH_LONG)
-                        .setAction("Connected", null).show();
-            }
+            activity = (MainActivity) requireActivity();
+            activity.newConnection(String.valueOf(binding.serverId.getText()), this);
         });
     }
 
+    public void hideProgressBar() {
+        binding.progressBar.setAlpha(0);
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();

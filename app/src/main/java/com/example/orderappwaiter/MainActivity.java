@@ -19,9 +19,11 @@ import com.example.orderappwaiter.databinding.ActivityMainBinding;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<String> itemList;
     public String serverID;
     public FirstFragment fragment;
+    public Connection connection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,35 +96,36 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public ArrayList[] newConnection(String newServerID) {
-        NetworkingNewConnect networkingNewConnect = new NetworkingNewConnect();
-        serverID = newServerID;
-        networkingNewConnect.parent = this;
-        networkingNewConnect.serverID = newServerID;
-        Thread thread = new Thread(networkingNewConnect);
-        thread.start();
-        try {
-            thread.join(3000);
-            // Fixed?
-            if (networkingNewConnect.get() == null) {
-                Log.d("NULLRETURN", "D:");
-                //return null;
-            }
-            currentIP = networkingNewConnect.ip();
-            Log.d("IP", currentIP);
-            ArrayList[] result = networkingNewConnect.get();
+    public void newConnection(String newServerID, SecondFragment secondFragment) {
+        new Thread(()-> {
             try {
-                availableList = result[0];
-                itemList = result[1];
+                if (Objects.nonNull(connection)) {
+                    connection.dispose();
+                    connection = null;
+                }
+                connection = new Connection(newServerID, this);
+                // Get the data
+                ItemData data = connection.getData();
+                runOnUiThread(()->{
+                    if (secondFragment != null) {
+                        secondFragment.hideProgressBar();
+                    }
+                    if (data != null) {
+                        Snackbar.make(findViewById(android.R.id.content), "Connection Success!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        setItemData(data);
+                    } else {
+                        Snackbar.make(findViewById(android.R.id.content), "Connection Failed. Try checking the other device is online, and on the same network, as this device.", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    }
+                });
             } catch (Exception e) {
-                Log.d("NULLRETURN", "106-107");
-                e.printStackTrace();
+                Log.e("OrderAppWaiter", "newConnection() procedure failed: " + Arrays.toString(e.getStackTrace()));
+                Snackbar.make(findViewById(android.R.id.content), "Connection Failed. Try checking the other device is online, and on the same network, as this device.", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                if (secondFragment != null) {
+                    secondFragment.hideProgressBar();
+                }
             }
-            return result;
-        } catch (Exception e){
-            Log.d("NULLRETURN", String.valueOf(e));
-            return null;
-        }
+        }).start();
     }
     public ArrayList<Integer> getAvailable() {return availableList;}
     public ArrayList<String> getItems() {return itemList;}
@@ -132,8 +136,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void setAvailable(ArrayList<Integer> availables) {availableList = availables;if (fragment != null) {fragment.updateUi();}}
-    public void setItemList(ArrayList<String> items) {itemList = items; if (fragment != null) {fragment.updateUi();}
-    }
+    public void setItemList(ArrayList<String> items) {itemList = items; if (fragment != null) {fragment.updateUi();}}
+    public void setItemData(ItemData items) {setItemList(items.itemNames); setAvailable(items.itemQuantities); if (fragment != null) {fragment.updateUi();}}
     /*
     public static ArrayList[] newConnection(String serverID) {
         // Backup function - throws network on main thread Exception.

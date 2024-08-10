@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-
+@Deprecated
 public class Sender extends Thread {
     public String serverID;
     public String name;
