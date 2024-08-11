@@ -108,6 +108,13 @@ public class Connection {
                 idempotencyToken++;
                 // Create and return an ItemData
                 return new ItemData(itemNames, itemQuantities);
+            } catch (IOException ie) {
+                try {
+                    Log.e("OrderAppWaiter Networking", "Networking failed with IOException, attempting reconnect: " + Arrays.toString(ie.getStackTrace()) + ie.getClass());
+                    reconnect();
+                } catch (Exception e) {
+                    Log.e("OrderAppWaiter Networking", "Reconnecting failed");
+                }
             } catch (Exception e) {
                 Log.e("OrderAppWaiter Networking", "An error occurred in the getServer() method. " + Arrays.toString(e.getStackTrace()));
             }
@@ -373,4 +380,7 @@ public class Connection {
             Log.e("OrderAppWaiter Networking", "Wait fail " + Arrays.toString(e.getStackTrace()));
         }
     }
+    public void reconnect() throws IOException {
+        socket = new Socket(serverIP, 65433);
+        socket.setSoTimeout(TIMEOUT);    }
 }

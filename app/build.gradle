@@ -5,9 +5,15 @@ plugins {
 android {
     signingConfigs {
         debug {
-            storeFile file('E:\\0000_JAMES\\Programs\\OrderWaiterBuilds\\Key.jks')
-            storePassword 'JTechnicalsup1975'
-            keyPassword 'JTechnicalsup1975'
+            storeFile file('E:\\0000_JAMES\\Programs\\OrderWaiterBuilds\\OrderAppKey.jks')
+            keyAlias 'key0'
+            storePassword 'nVexeSChpwRjkVlF'
+            keyPassword 'nVexeSChpwRjkVlF'
+        }
+        release {
+            storeFile file('E:\\0000_JAMES\\Programs\\OrderWaiterBuilds\\OrderAppKey.jks')
+            storePassword 'nVexeSChpwRjkVlF'
+            keyPassword 'nVexeSChpwRjkVlF'
             keyAlias 'key0'
         }
     }
