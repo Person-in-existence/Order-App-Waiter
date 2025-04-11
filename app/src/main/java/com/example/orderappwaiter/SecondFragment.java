@@ -82,6 +82,7 @@ public class SecondFragment extends Fragment {
                     TableRow deviceRow = new TableRow(activity);
                     // Name
                     TextView nameView = new TextView(activity);
+                    nameView.setPadding(5,5,16,5);
                     nameView.setText(device.name);
                     deviceRow.addView(nameView);
 
