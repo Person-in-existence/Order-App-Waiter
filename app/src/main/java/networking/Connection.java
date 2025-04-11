@@ -80,7 +80,6 @@ class Connection extends Thread {
             try {
                 try {
                     socket.setSoTimeout(socketTimeOut);
-                    Log.v("networking.Connection", "About to try reading header");
                     Header header = new Header(in);
                     Log.v("networking.Connection", ip + ": " + header);
                     if (header.versionNumber != Network.NETWORK_VERSION_NUMBER) {

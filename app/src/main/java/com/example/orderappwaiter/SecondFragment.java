@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -48,44 +49,42 @@ public class SecondFragment extends Fragment {
 
         activity = (MainActivity) requireActivity();
 
+        SecondFragment thisReference = this;
+
         // Scan for devices
         // Use a new thread so we don't block UI thread
         new Thread() {
             public void run() {
-                // Make the progress bar visible
-                binding.progressBar.setProgress(0);
                 showProgressBar();
-                ArrayList<Device> devices = Network.scanDevices(binding.progressBar::setProgress);
-                activity.runOnUiThread(() -> {
-                    // Use a try to stop crash if user clicks off before search is finished.
-                    try {
-                        showDevices(devices);
-                    } catch (Exception ignored) {}
-                });
+                Network.scanDevices(thisReference::addDevice, thisReference::hideProgressBar);
             }
         }.start();
     }
-    public void showDevices(ArrayList<Device> devices) {
-        hideProgressBar();
 
-        // Clear the table
-        binding.deviceTable.removeAllViews();
-
-        Log.v("SecondFragment", "Show devices called with: " + devices);
-        TableLayout table = binding.deviceTable;
-
-        for (Device device: devices) {
+    public void addDevice(Device device) {
+        activity.runOnUiThread(()->{
+            Log.d("SecondFragment", "addDevice called: " + device);
             TableRow deviceRow = new TableRow(activity);
-
             // Name
             TextView nameView = new TextView(activity);
             nameView.setText(device.name);
             deviceRow.addView(nameView);
 
-            table.addView(deviceRow);
-        }
+            // Device Type
+            TextView typeView = new TextView(activity);
+            typeView.setText(device.typeName());
+            deviceRow.addView(typeView);
 
+            // Button
+            Button button = new Button(activity);
+            button.setText("Connect!");
+            button.setOnClickListener(view->{
+                Network.joinServer(device.getJoinCode());
+            });
+            deviceRow.addView(button);
 
+            binding.deviceTable.addView(deviceRow);
+        });
     }
     public void showProgressBar() {
         binding.progressBar.setVisibility(VISIBLE);

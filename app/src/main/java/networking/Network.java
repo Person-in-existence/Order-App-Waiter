@@ -34,8 +34,8 @@ public class Network {
     private static final AtomicLong orderID = new AtomicLong(0);
     private static boolean serverJoinReturned = false;
 
-    public static ArrayList<Device> scanDevices(@Nullable NetworkScanner.ProgressBarUpdate progressBar) {
-        return NetworkScanner.scan(progressBar);
+    public static void scanDevices(NetworkScanner.NewDevice addDevice, NetworkScanner.Timeout timeout) {
+        NetworkScanner.scan(addDevice, timeout);
     }
 
     /**
