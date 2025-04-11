@@ -7,7 +7,6 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
-import android.view.View;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -19,26 +18,38 @@ import com.example.orderappwaiter.databinding.ActivityMainBinding;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+
+import networking.Network;
+import networking.SessionData;
+import networking.Order;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static final short DEVICE_TYPE = 0; // 0 for waiter
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     public String currentIP = "";
-    public ArrayList<Integer> availableList = new ArrayList<>();
-    public ArrayList<String> itemList;
+    public ArrayList<Integer> quantities = new ArrayList<>();
+    public ArrayList<String> names = new ArrayList<>();
+    public ArrayList<Integer> orderList = new ArrayList<>();
     public String serverID;
     public FirstFragment fragment;
-    public Connection connection;
+    public volatile boolean locked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Up here so it is done before other things are made
+        names = new ArrayList<>();
+        quantities = new ArrayList<>();
+        for (int i =0; i < 8; i++) {
+            quantities.add(0);
+            names.add("");
+            orderList.add(0);
+        }
+
+        Network.setActivity(this);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -57,14 +68,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         */
-        itemList = new ArrayList<>();
-        availableList = new ArrayList<>();
-        for (int i =0; i < 8; i++) {
-            availableList.add(0);
-            itemList.add("");
-        }
-        Log.d("ItemListLength", String.valueOf(itemList.size()));
-        Log.d("Lists", String.valueOf(availableList.get(0)));
+
+        Log.d("ItemListLength", String.valueOf(names.size()));
+        Log.d("Lists", String.valueOf(quantities.get(0)));
     }
 
     @Override
@@ -97,136 +103,138 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void newConnection(String newServerID, SecondFragment secondFragment) {
-        new Thread(()-> {
-            try {
-                if (Objects.nonNull(connection)) {
-                    connection.dispose();
-                    connection = null;
-                }
-                connection = new Connection(newServerID, this);
-                // Get the data
-                ItemData data = connection.getData();
-                runOnUiThread(()->{
-                    if (secondFragment != null) {
-                        secondFragment.hideProgressBar();
-                    }
-                    if (data != null) {
-                        Snackbar.make(findViewById(android.R.id.content), "Connection Success!", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                        setItemData(data);
-                    } else {
-                        Snackbar.make(findViewById(android.R.id.content), "Connection Failed. Try checking the other device is online, and on the same network, as this device.", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                    }
-                });
-            } catch (Exception e) {
-                Log.e("OrderAppWaiter", "newConnection() procedure failed: " + Arrays.toString(e.getStackTrace()));
-                Snackbar.make(findViewById(android.R.id.content), "Connection Failed. Try checking the other device is online, and on the same network, as this device.", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                if (secondFragment != null) {
-                    secondFragment.hideProgressBar();
-                }
-            }
-        }).start();
+        Network.joinServer(newServerID);
     }
-    public ArrayList<Integer> getAvailable() {return availableList;}
-    public ArrayList<String> getItems() {return itemList;}
+    public void joinedServer(boolean success) {
+        if (success) {
+            Snackbar.make(findViewById(android.R.id.content), "Connection Success!", Snackbar.LENGTH_LONG).show();
+        } else {
+            Snackbar.make(findViewById(android.R.id.content), "Connection Failed. Try checking the other device is online, and on the same network, as this device.", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        }
+    }
+
+    public int makeChecksum() {
+        int total = 0;
+        for (int index = 0; index < quantities.size(); index++) {
+            int quantity = quantities.get(index) + orderList.get(index);
+            total += (int) (Math.pow(7, index) * quantity);
+        }
+        return total;
+    }
+
+    public ArrayList<Integer> getAvailable() {return quantities;}
+    public ArrayList<String> getItems() {return names;}
     public void setFragment(FirstFragment newFragment) {
         fragment = newFragment;
         if (newFragment != null) {
             fragment.updateUi();
         }
     }
-    public void setAvailable(ArrayList<Integer> availables) {availableList = availables;if (fragment != null) {fragment.updateUi();}}
-    public void setItemList(ArrayList<String> items) {itemList = items; if (fragment != null) {fragment.updateUi();}}
-    public void setItemData(ItemData items) {setItemList(items.itemNames); setAvailable(items.itemQuantities); if (fragment != null) {fragment.updateUi();}}
-    /*
-    public static ArrayList[] newConnection(String serverID) {
-        // Backup function - throws network on main thread Exception.
-        // Makes Socket global
-        Socket socket;
-        // Creates the two ArrayLists which will be returned
-        ArrayList<Integer> available = new ArrayList<Integer>();
-        ArrayList<String> items = new ArrayList<String>();
-        // Creates the Array "Full", which contains the two ArrayLists "Available" and "Items"
-        ArrayList[] full = {available, items};
-        // Creates the Array "Empty", to be returned in case of an error.
-        ArrayList[] empty = {};
-        try {
-            // gets the IP address of the current device
-            String ip = Inet4Address.getLocalHost().getHostAddress();
-            // Outputs the Current Device's IP address
-            Log.d("IPADDRESS", ip);
-            assert ip != null;
-            // Creates an array of the parts of the IP, split around the "."s.
-            String[] bits = ip.split("\\.");
-            // Creates the full IP by adding the first three items in "bits" together with dots between to the server ID
-            String to_connect = bits[0] + "." + bits[1] + "." + bits[2] + "." + serverID;
-            // Sets the variable "currentIP" to the IP made above
-            currentIP = to_connect;
-            // Outputs that IP
-            Log.d("Ip", currentIP);
-            // Creates a socket (global to function, see above) on port 65432, using the IP to_connect
-            socket = new Socket(to_connect, 65432);
-
-        } catch (Exception e) {
-            Log.d("newConnection 1:", "Something went wrong while creating ip/sockets");
-            Log.d("ErrorLog", String.valueOf(e));
-            // If there is an exception, return the empty list, to be handled by code.
-            return empty;
+    public void setAvailable(ArrayList<Integer> quantities) {
+        this.quantities = quantities;
+        if (fragment != null) {
+            fragment.updateUi();
         }
-        try {
-            //Creates the DataOutputStream to the server
-            OutputStream to_server = socket.getOutputStream();
-            DataOutputStream out = new DataOutputStream(to_server);
-            // Creates the dataInputStream from the server
-            InputStream from_server = socket.getInputStream();
-            DataInputStream in = new DataInputStream(from_server);
-            // Loops through the 8 integers sent for available
-            for (int index = 0; index < 8; index++) {
-                int count = 0;
-                // Tries each item up to ten times if not enough data
-                while (count < 10) {
-                    int current = in.readInt();
-                    if (current != -1) {
-                        available.add(current);
-                        break;
-                    }
-                    count++;
-                }
+    }
+    public void setNameList(ArrayList<String> names) {
+        this.names = names;
+        if (fragment != null) {
+            fragment.updateUi();
+        }
+    }
+    public void setSessionData(SessionData data) {
+        // TODO: CURRENT ORDER THINGS - OTHERWISE WE HAVE TOO MUCH BECAUSE ORDER EXISTS TOO AND CHECKSUM WILL BE INFINITE LOOP
+        ArrayList<String> names = new ArrayList<>();
+        ArrayList<Integer> quantities = new ArrayList<>();
 
-                for (int indexitem = 0; indexitem < 8; indexitem++) {
-                    // Gets the length of the next string
-                    int length = in.readInt();
-                    // The final string
-                    String currentString = "";
-                    // Loops through the sent message with length as the number of loops
-                    for (int indexchar = 0; indexchar < length; indexchar++) {
-                        // gets the current character and adds it to the string.
-                        char currentchar = in.readChar();
-                        currentString = currentString + currentchar;
-                    }
-                    // adds the current string to the "items" list
-                    items.add(currentString);
+        boolean currentOrderAffected = false;
+        for (int index = 0; index < data.items.length; index++) {
+            SessionData.SessionItem item = data.items[index];
+            names.add(item.name);
+            // Adjust for orders as well - quantity = item.quantity - ordered. If negative, set to whatever remains and notify user
+            // Protect against error if size mismatch
+            if (index < orderList.size()) {
+                int quantity = item.quantity - orderList.get(index);
+                if (quantity >= 0) {
+                    quantities.add(quantity);
+                } else {
+                    // Quantity is 0 - set order to whatever is left and warn user
+                    quantities.add(0);
+                    orderList.set(index, item.quantity);
+                    currentOrderAffected = true;
                 }
+            } else {
+                Log.e("MainActivity", "Size mismatch in setSessionData: orderList.size() " + orderList.size() + " data.items.length " + data.items.length);
+                quantities.add(item.quantity);
             }
-            // Returns both lists in an array, with item zero being "available", and item one being "items"
-            return full;
-        } catch (Exception e) {
-            Log.d("newConnection 2:", "Something went wrong while getting data.");
-            Log.d("ErrorLog:", String.valueOf(e));
-            // If there is an exception, return the empty list, to be handled by code.
-            return empty;
         }
+
+        // Show a warning to the user if the order has changed
+        if (currentOrderAffected) {
+            showSnackbar("Item stock changed: Order Affected");
+        }
+
+        this.names = names;
+        this.quantities = quantities;
+        updateFragment();
     }
-    public static void update_available(ArrayList<Integer> available) {
+    public SessionData getSessionData() {
+        SessionData.SessionItem[] items = new SessionData.SessionItem[names.size()];
+        for (int index = 0; index < names.size(); index++) {
+            SessionData.SessionItem item = new SessionData.SessionItem(names.get(index), quantities.get(index));
+            items[index] = item;
+        }
+        return new SessionData(items);
+    }
+    public void onConnectionLost() {
+        showSnackbar("Connection Lost!");
 
     }
-    public static void setCurrentIP(String value) {
-        currentIP = value;
+    public void onOrderSent(boolean success) {
+        Log.d("MainActivity", "onOrderSent: " + success);
+        if (success) {
+            runOnUiThread(()->{
+                showSnackbar("Order sent successfully!");
+                // Clear order data from screen
+                if (fragment != null) {
+                    fragment.clearUi();
+                } else {
+                    Log.w("MainActivity", "Tried to clear fragment but it was null");
+                }
+            });
+        } else {
+            showSnackbar("Sending order failed");
+        }
+        // Unlock controls
+        locked = false;
+
     }
-    public static String getCurrentIP() {
-        return currentIP;
+    public void addRemoveItemsByAmounts(Order order) {
+        for (Order.OrderItem item: order.items) {
+            int index = item.itemID;
+
+            // Equivalent to quantities[index] -= item.quantity
+            quantities.set(index, (quantities.get(index) - item.quantity));
+        }
+        // Update first fragment UI so we see the changes
+        updateFragment();
     }
 
- */
+    public void sendOrder(Order order) {
+        locked = true;
+        Network.sendOrder(order);
+
+    }
+    public void showSnackbar(String message) {
+        Snackbar.make(findViewById(android.R.id.content).getRootView(), message, Snackbar.LENGTH_LONG).show();
+    }
+    private void updateFragment() {
+        runOnUiThread(()->{
+            if (fragment != null) {
+                fragment.updateUi();
+            }
+        });
+    }
+
 }
 

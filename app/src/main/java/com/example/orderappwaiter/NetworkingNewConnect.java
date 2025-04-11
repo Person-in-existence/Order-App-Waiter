@@ -8,8 +8,6 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.Socket;
@@ -80,7 +78,7 @@ public class NetworkingNewConnect extends Thread {
                 // If there is an exception, return the empty list, to be handled by code.
                 list = full;
                 parent.setAvailable(available);
-                parent.setItemList(items);
+                parent.setNameList(items);
             }
         } catch (Exception e) {
             Log.d("newConnection 1:", "Something went wrong while creating ip/sockets");
