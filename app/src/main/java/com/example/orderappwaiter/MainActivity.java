@@ -20,6 +20,7 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 
+import networking.Device;
 import networking.Network;
 import networking.SessionData;
 import networking.Order;
@@ -33,8 +34,11 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<String> names = new ArrayList<>();
     public ArrayList<Integer> orderList = new ArrayList<>();
     public String serverID;
-    public FirstFragment fragment;
+    public FirstFragment firstFragment;
+    public SecondFragment secondFragment;
     public volatile boolean locked = false;
+    public volatile boolean isScanning = false;
+    public ArrayList<Device> devices = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("ItemListLength", String.valueOf(names.size()));
         Log.d("Lists", String.valueOf(quantities.get(0)));
+        // Immediately scan devices so there isn't a wait
+        scanDevices();
     }
 
     @Override
@@ -124,22 +130,25 @@ public class MainActivity extends AppCompatActivity {
 
     public ArrayList<Integer> getAvailable() {return quantities;}
     public ArrayList<String> getItems() {return names;}
-    public void setFragment(FirstFragment newFragment) {
-        fragment = newFragment;
+    public void setFirstFragment(FirstFragment newFragment) {
+        firstFragment = newFragment;
         if (newFragment != null) {
-            fragment.updateUi();
+            firstFragment.updateUi();
         }
+    }
+    public void setSecondFragment(SecondFragment secondFragment) {
+        this.secondFragment = secondFragment;
     }
     public void setAvailable(ArrayList<Integer> quantities) {
         this.quantities = quantities;
-        if (fragment != null) {
-            fragment.updateUi();
+        if (firstFragment != null) {
+            firstFragment.updateUi();
         }
     }
     public void setNameList(ArrayList<String> names) {
         this.names = names;
-        if (fragment != null) {
-            fragment.updateUi();
+        if (firstFragment != null) {
+            firstFragment.updateUi();
         }
     }
     public void setSessionData(SessionData data) {
@@ -196,8 +205,8 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(()->{
                 showSnackbar("Order sent successfully!");
                 // Clear order data from screen
-                if (fragment != null) {
-                    fragment.clearUi();
+                if (firstFragment != null) {
+                    firstFragment.clearUi();
                 } else {
                     Log.w("MainActivity", "Tried to clear fragment but it was null");
                 }
@@ -230,11 +239,50 @@ public class MainActivity extends AppCompatActivity {
     }
     private void updateFragment() {
         runOnUiThread(()->{
-            if (fragment != null) {
-                fragment.updateUi();
+            if (firstFragment != null) {
+                firstFragment.updateUi();
             }
         });
     }
+    public void setIsScanning(boolean isScanning) {
+        runOnUiThread(()->{
+            this.isScanning = isScanning;
+            if (secondFragment != null) {
+                if (isScanning) {
+                    secondFragment.showProgressBar();
+                } else {
+                    secondFragment.hideProgressBar();
+                }
+            }
+        });
+
+
+    }
+    public void scanDevices() {
+        MainActivity thisReference = this;
+        new Thread() {
+            public void run() {
+                // Clear devices
+                devices = new ArrayList<>();
+                if (secondFragment != null) {
+                    secondFragment.clearDevices();
+                }
+                setIsScanning(true);
+                Network.scanDevices(thisReference::addDevice, ()->setIsScanning(false));
+            }
+        }.start();
+    }
+    public void addDevice(Device device) {
+        runOnUiThread(()->{
+            devices.add(device);
+            if (secondFragment != null) {
+                secondFragment.addDevice(device);
+            }
+            Log.d("MainActivity", "Device added: " + devices);
+        });
+
+    }
+
 
 }
 

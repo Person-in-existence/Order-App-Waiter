@@ -48,55 +48,77 @@ public class SecondFragment extends Fragment {
                 .navigate(R.id.action_SecondFragment_to_FirstFragment));
 
         activity = (MainActivity) requireActivity();
+        activity.setSecondFragment(this);
 
-        SecondFragment thisReference = this;
+        // Set devices on start so that we have previous devices
+        setDevices(activity.devices);
+        if (activity.isScanning) {
+            // Show the progress bar
+            showProgressBar();
+        }
 
-        // Scan for devices
-        // Use a new thread so we don't block UI thread
-        new Thread() {
-            public void run() {
-                showProgressBar();
-                Network.scanDevices(thisReference::addDevice, thisReference::hideProgressBar);
+        binding.scan.setOnClickListener(v->{
+            if (!activity.isScanning) {
+                activity.scanDevices();
             }
-        }.start();
+        });
+    }
+
+    public void setDevices(ArrayList<Device> devices) {
+        // Clear table
+        binding.deviceTable.removeAllViews();
+        for (Device device: devices) {
+            addDevice(device);
+        }
+    }
+    public void clearDevices() {
+        activity.runOnUiThread(()->binding.deviceTable.removeAllViews());
     }
 
     public void addDevice(Device device) {
-        activity.runOnUiThread(()->{
-            Log.d("SecondFragment", "addDevice called: " + device);
-            TableRow deviceRow = new TableRow(activity);
-            // Name
-            TextView nameView = new TextView(activity);
-            nameView.setText(device.name);
-            deviceRow.addView(nameView);
+        try {
+            activity.runOnUiThread(() -> {
+                try {
+                    TableRow deviceRow = new TableRow(activity);
+                    // Name
+                    TextView nameView = new TextView(activity);
+                    nameView.setText(device.name);
+                    deviceRow.addView(nameView);
 
-            // Device Type
-            TextView typeView = new TextView(activity);
-            typeView.setText(device.typeName());
-            deviceRow.addView(typeView);
+                    // Device Type
+                    TextView typeView = new TextView(activity);
+                    typeView.setText(device.typeName());
+                    deviceRow.addView(typeView);
 
-            // Button
-            Button button = new Button(activity);
-            button.setText("Connect!");
-            button.setOnClickListener(view->{
-                Network.joinServer(device.getJoinCode());
+                    // Button
+                    Button button = new Button(activity);
+                    button.setText("Connect!");
+                    button.setOnClickListener(view -> {
+                        Network.joinServer(device.getJoinCode());
+                    });
+                    deviceRow.addView(button);
+
+                    binding.deviceTable.addView(deviceRow);
+                } catch (Exception ignored) {
+                }
             });
-            deviceRow.addView(button);
-
-            binding.deviceTable.addView(deviceRow);
-        });
+        } catch (Exception ignored) {}
     }
     public void showProgressBar() {
         binding.progressBar.setVisibility(VISIBLE);
     }
 
     public void hideProgressBar() {
-        binding.progressBar.setVisibility(INVISIBLE);
+        // Try to protect from null issues
+        try {
+            binding.progressBar.setVisibility(INVISIBLE);
+        } catch (Exception ignored) {}
     }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        activity.setSecondFragment(null);
     }
 
 }

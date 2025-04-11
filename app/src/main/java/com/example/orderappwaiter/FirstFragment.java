@@ -101,7 +101,7 @@ public class FirstFragment extends Fragment {
             }
         });
         updateUi();
-        activity.setFragment(this);
+        activity.setFirstFragment(this);
 
     }
     private void sendOrder() {
@@ -123,7 +123,7 @@ public class FirstFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        activity.setFragment(null);
+        activity.setFirstFragment(null);
         binding = null;
     }
     public void updateUi() {
