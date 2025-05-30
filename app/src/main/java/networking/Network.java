@@ -88,8 +88,7 @@ public class Network {
     }
 
     public static void removeOrderByID(long orderID) {
-        Log.e("networking.Network", "Received call to removeOrderByID, not expected on a waiter device. assert false");
-        assert false;
+        // Do nothing: this is for kitchen devices only
     }
     public static void setSessionData(SessionData data) {
         activity.setSessionData(data);
@@ -99,12 +98,10 @@ public class Network {
         assert false;
     }
     public static void setOrderData(OrderData data) {
-        Log.e("networking.Network", "Received call to setOrderData, not expected on a waiter device. assert false");
-        assert false;
+
     }
     public static void addOrder(Order order) {
-        Log.e("networking.Network","Received call to addOrder, not expected on a waiter device. assert false");
-        assert false;
+
     }
     public static boolean addOrderChecksum(Order order, int receivedChecksum) {
         // Add the order

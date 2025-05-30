@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="Waiter App">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-04-11T07:23:36.976121700Z">
+        <DropdownSelection timestamp="2025-05-27T14:17:59.737119700Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=HQ62B100F4" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=E:\Android\avd\Pixel_3a.avd" />
             </handle>
           </Target>
         </DropdownSelection>
