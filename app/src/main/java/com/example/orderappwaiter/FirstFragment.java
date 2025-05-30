@@ -13,9 +13,10 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.orderappwaiter.databinding.FragmentFirstBinding;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+
+import networking.Order;
 
 public class FirstFragment extends Fragment {
 
@@ -45,261 +46,108 @@ public class FirstFragment extends Fragment {
         binding.buttonFirst.setOnClickListener(view117 -> NavHostFragment.findNavController(FirstFragment.this)
                 .navigate(R.id.action_FirstFragment_to_SecondFragment));
         // Creates lists of items. Uses ArrayLists to code start easier.
-        orderList = new ArrayList<>();
+        orderList = activity.orderList;
         for (int ordercount = 0; ordercount < 8; ordercount++) {
             orderList.add(0);
         }
         availableList = activity.getAvailable();
-        System.out.println("Length of available is" + availableList.size());
+        System.out.println("Length of available is " + availableList.size());
         itemList = activity.getItems();
-        try {
-            updateUi();
-        } catch( Exception e) {
-            Log.d("UpdateUIError", String.valueOf(e));
-        }
+
         // Creates lists of the UI elements
         orderListItems = new TextView[]{binding.orderedOne, binding.orderedTwo, binding.orderedThree, binding.orderedFour, binding.orderedFive, binding.orderedSix, binding.orderedSeven, binding.orderedEight};
         availableListItems = new TextView[]{binding.availableOne, binding.availableTwo, binding.availableThree, binding.availableFour, binding.availableFive, binding.availableSix, binding.availableSeven, binding.availableEight};
         itemListItems = new TextView[]{binding.itemOne, binding.itemTwo, binding.itemThree, binding.itemFour, binding.itemFive, binding.itemSix, binding.itemSeven, binding.itemEight};
-        // Creates the button variables
-        Button increaseOne = binding.increaseOne;
-        Button increaseTwo = binding.increaseTwo;
-        Button increaseThree = binding.increaseThree;
-        Button increaseFour = binding.increaseFour;
-        Button increaseFive = binding.increaseFive;
-        Button increaseSix = binding.increaseSix;
-        Button increaseSeven = binding.increaseSeven;
-        Button increaseEight = binding.increaseEight;
+        Button[] increases = new Button[] {binding.increaseOne, binding.increaseTwo, binding.increaseThree, binding.increaseFour, binding.increaseFive, binding.increaseSix, binding.increaseSeven, binding.increaseEight};
+        Button[] decreases = new Button[] {binding.decreaseOne, binding.decreaseTwo, binding.decreaseThree, binding.decreaseFour, binding.decreaseFive, binding.decreaseSix, binding.decreaseSeven, binding.decreaseEight};
         // Sets the listeners for buttons
-        // fix for null
-        increaseOne.setOnClickListener(view19 -> {
-            if (!availableList.isEmpty()) {
-                if (availableList.get(0) > 0) {
-                    orderList.set(0, orderList.get(0) + 1);
-                    orderListItems[0].setText(String.valueOf(orderList.get(0)));
-                    availableList.set(0, availableList.get(0) - 1);
-                    activity.availableList.set(0, availableList.get(0));
-                    availableListItems[0].setText(String.valueOf(availableList.get(0)));
-                }
-            }
-        });
-        increaseTwo.setOnClickListener(view110 -> {
-            if (availableList.size() > 1) {
-                if (availableList.get(1) > 0) {
-                    orderList.set(1, orderList.get(1) + 1);
-                    binding.orderedTwo.setText(String.valueOf(orderList.get(1)));
-                    availableList.set(1, availableList.get(1) - 1);
-                    activity.availableList.set(1, availableList.get(1));
-                    availableListItems[1].setText(String.valueOf(availableList.get(1)));
-                }
-            }
-        });
-        increaseThree.setOnClickListener(view111 -> {
-            int x = 2;
-            if (availableList.size() > x) {
-                if (availableList.get(x) > 0) {
-                    orderList.set(x, orderList.get(x) + 1);
-                    orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                    availableList.set(x, availableList.get(x) - 1);
-                    activity.availableList.set(x, availableList.get(x));
-                    availableListItems[x].setText(String.valueOf(availableList.get(x)));
-                }
-            }
-        });
-        increaseFour.setOnClickListener(view112 -> {
-            int x = 3;
-            if (availableList.size() > x) {
-                if (availableList.get(x) > 0) {
-                    orderList.set(x, orderList.get(x) + 1);
-                    orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                    availableList.set(x, availableList.get(x) - 1);
-                    activity.availableList.set(x, availableList.get(x));
-                    availableListItems[x].setText(String.valueOf(availableList.get(x)));
-                }
-            }
-        });
-        increaseFive.setOnClickListener(view113 -> {
-            int x = 4;
-            if (availableList.size() > x) {
-                if (availableList.get(x) > 0) {
-                    orderList.set(x, orderList.get(x) + 1);
-                    orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                    availableList.set(x, availableList.get(x) - 1);
-                    activity.availableList.set(x, availableList.get(x));
-                    availableListItems[x].setText(String.valueOf(availableList.get(x)));
-                }
-            }
-        });
-        increaseSix.setOnClickListener(view114 -> {
-            int x = 5;
-            if (availableList.size() > x) {
-                if (availableList.get(x) > 0) {
-                    orderList.set(x, orderList.get(x) + 1);
-                    orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                    availableList.set(x, availableList.get(x) - 1);
-                    activity.availableList.set(x, availableList.get(x));
-                    availableListItems[x].setText(String.valueOf(availableList.get(x)));
-                }
-            }
-        });
-        increaseSeven.setOnClickListener(view115 -> {
-            int x = 6;
-            if (availableList.size() > x) {
-                if (availableList.get(x) > 0) {
-                    orderList.set(x, orderList.get(x) + 1);
-                    orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                    availableList.set(x, availableList.get(x) - 1);
-                    activity.availableList.set(x, availableList.get(x));
-                    availableListItems[x].setText(String.valueOf(availableList.get(x)));
-                }
-            }
-        });
-        increaseEight.setOnClickListener(view116 -> {
-            int x = 7;
-            if (availableList.size() > x) {
-                if (availableList.get(x) > 0) {
-                    orderList.set(x, orderList.get(x) + 1);
-                    orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                    availableList.set(x, availableList.get(x) - 1);
-                    activity.availableList.set(x, availableList.get(x));
-                    availableListItems[x].setText(String.valueOf(availableList.get(x)));
-                }
-            }
-        });
+        // TODO: fix for null?
 
-        // Creates the Decrease variables
-        Button decreaseOne = binding.decreaseOne;
-        Button decreaseTwo = binding.decreaseTwo;
-        Button decreaseThree = binding.decreaseThree;
-        Button decreaseFour = binding.decreaseFour;
-        Button decreaseFive = binding.decreaseFive;
-        Button decreaseSix = binding.decreaseSix;
-        Button decreaseSeven = binding.decreaseSeven;
-        Button decreaseEight = binding.decreaseEight;
-        decreaseOne.setOnClickListener(view14 -> {
-            int x = 0;
-            if (orderList.get(x)> 0) {
-                orderList.set(x, orderList.get(x)-1);
-                orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                availableList.set(x, availableList.get(x)+1);
-                activity.availableList.set(0, availableList.get(0));
-                availableListItems[x].setText(String.valueOf(availableList.get(x)));
-            }
-        });
-        decreaseTwo.setOnClickListener(view13 -> {
-            int x = 1;
-            if (orderList.get(x)> 0) {
-                orderList.set(x, orderList.get(x)-1);
-                orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                availableList.set(x, availableList.get(x)+1);
-                activity.availableList.set(1, availableList.get(1));
-                availableListItems[x].setText(String.valueOf(availableList.get(x)));
-            }
-        });
-        decreaseThree.setOnClickListener(view12 -> {
-            int x = 2;
-            if (orderList.get(x)> 0) {
-                orderList.set(x, orderList.get(x)-1);
-                orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                availableList.set(x, availableList.get(x)+1);
-                activity.availableList.set(x, availableList.get(x));
-                availableListItems[x].setText(String.valueOf(availableList.get(x)));
-            }
-        });
-        decreaseFour.setOnClickListener(view1 -> {
-            int x = 3;
-            if (orderList.get(x)> 0) {
-                orderList.set(x, orderList.get(x)-1);
-                orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                availableList.set(x, availableList.get(x)+1);
-                activity.availableList.set(x, availableList.get(x));
-                availableListItems[x].setText(String.valueOf(availableList.get(x)));
-            }
-        });
-        decreaseFive.setOnClickListener(view15 -> {
-            int x = 4;
-            if (orderList.get(x)> 0) {
-                orderList.set(x, orderList.get(x)-1);
-                orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                availableList.set(x, availableList.get(x)+1);
-                activity.availableList.set(x, availableList.get(x));
-                availableListItems[x].setText(String.valueOf(availableList.get(x)));
-            }
-        });
-        decreaseSix.setOnClickListener(view16 -> {
-            int x = 5;
-            if (orderList.get(x)> 0) {
-                orderList.set(x, orderList.get(x)-1);
-                orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                availableList.set(x, availableList.get(x)+1);
-                activity.availableList.set(x, availableList.get(x));
-                availableListItems[x].setText(String.valueOf(availableList.get(x)));
-            }
-        });
-        decreaseSeven.setOnClickListener(view17 -> {
-            int x = 6;
-            if (orderList.get(x)> 0) {
-                orderList.set(x, orderList.get(x)-1);
-                orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                availableList.set(x, availableList.get(x)+1);
-                activity.availableList.set(x, availableList.get(x));
-                availableListItems[x].setText(String.valueOf(availableList.get(x)));
-            }
-        });
-        decreaseEight.setOnClickListener(view18 -> {
-            int x = 7;
-            if (orderList.get(x)> 0) {
-                orderList.set(x, orderList.get(x)-1);
-                orderListItems[x].setText(String.valueOf(orderList.get(x)));
-                availableList.set(x, availableList.get(x)+1);
-                activity.availableList.set(x, availableList.get(x));
-                availableListItems[x].setText(String.valueOf(availableList.get(x)));
-                Snackbar.make(view, String.valueOf(orderList), Snackbar.LENGTH_LONG)
-                        .setAction("", null).show();
-            }
-        });
+        // Increases
+        for (int index = 0; index < increases.length; index ++ ) {
+            int finalIndex = index;
+
+            increases[index].setOnClickListener(view111 -> {
+                if (!activity.locked & availableList.size() > finalIndex) {
+                    if (availableList.get(finalIndex) > 0) {
+                        orderList.set(finalIndex, orderList.get(finalIndex) + 1);
+                        orderListItems[finalIndex].setText(String.valueOf(orderList.get(finalIndex)));
+                        availableList.set(finalIndex, availableList.get(finalIndex) - 1);
+                        activity.quantities.set(finalIndex, availableList.get(finalIndex));
+                        availableListItems[finalIndex].setText(String.valueOf(availableList.get(finalIndex)));
+                    }
+                }
+            });
+        }
+
+        // Decreases
+        for (int index = 0; index < decreases.length; index++) {
+            int finalIndex = index;
+            decreases[index].setOnClickListener(view14 -> {
+                if (!activity.locked & orderList.get(finalIndex)> 0) {
+                    orderList.set(finalIndex, orderList.get(finalIndex)-1);
+                    orderListItems[finalIndex].setText(String.valueOf(orderList.get(finalIndex)));
+                    availableList.set(finalIndex, availableList.get(finalIndex)+1);
+                    activity.quantities.set(0, availableList.get(0));
+                    availableListItems[finalIndex].setText(String.valueOf(availableList.get(finalIndex)));
+                }
+            });
+        }
+
+
         binding.sendOrder.setOnClickListener(view19 -> {
-            new Thread(() ->{
-                assert (orderList.size() == 8);
-                Order order = new Order(orderList, String.valueOf(binding.customerName.getText()));
-                boolean success = activity.connection.sendOrder(order);
-                if (success) {
-                    activity.runOnUiThread(()->{Snackbar.make(view, "Order success!", Snackbar.LENGTH_LONG).show();clearUi();});
-                } else {
-                    activity.runOnUiThread(()->{Snackbar.make(view, "Sending order failed.", Snackbar.LENGTH_LONG).show();});
-                }
-            }).start();
+            if (!activity.locked) {
+                sendOrder();
+            }
         });
+        updateUi();
+        activity.setFirstFragment(this);
 
+    }
+    private void sendOrder() {
+        // Lock controls so we don't mess anything up
+        activity.locked = true;
+        ArrayList<Order.OrderItem> items = new ArrayList<>();
+        for (int index = 0; index < orderList.size(); index++) {
+            if (orderList.get(index) != 0) {
+                items.add(new Order.OrderItem((short) index, orderList.get(index)));
+            }
+        }
+        String customerName = String.valueOf(binding.customerName.getText());
+
+        // 0 for order ID because it doesn't matter
+        Order order = new Order(items, customerName, 0);
+        activity.sendOrder(order);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        activity.setFragment(null);
+        activity.setFirstFragment(null);
         binding = null;
     }
     public void updateUi() {
         itemList = activity.getItems();
         availableList = activity.getAvailable();
+
         Log.d("UpdateUI", "Called");
-        Log.d("UpdateUI", "UPDATEUICALL");
-        binding.itemOne.setText(itemList.get(0));
-        binding.itemTwo.setText(itemList.get(1));
-        binding.itemThree.setText(itemList.get(2));
-        binding.itemFour.setText(itemList.get(3));
-        binding.itemFive.setText(itemList.get(4));
-        binding.itemSix.setText(itemList.get(5));
-        binding.itemSeven.setText(itemList.get(6));
-        binding.itemEight.setText(itemList.get(7));
-        binding.availableOne.setText(String.valueOf(availableList.get(0)));
-        binding.availableTwo.setText(String.valueOf(availableList.get(1)));
-        binding.availableThree.setText(String.valueOf(availableList.get(2)));
-        binding.availableFour.setText(String.valueOf(availableList.get(3)));
-        binding.availableFive.setText(String.valueOf(availableList.get(4)));
-        binding.availableSix.setText(String.valueOf(availableList.get(5)));
-        binding.availableSeven.setText(String.valueOf(availableList.get(6)));
-        binding.availableEight.setText(String.valueOf(availableList.get(7)));
+
+
+        assert itemListItems.length <= itemList.size();
+        for (int index = 0; index < itemListItems.length; index++) {
+            itemListItems[index].setText(itemList.get(index));
+        }
+
+        assert availableListItems.length <= availableList.size();
+        for (int index = 0; index < availableListItems.length; index++) {
+            availableListItems[index].setText(String.valueOf(availableList.get(index)));
+        }
+
+        assert orderListItems.length <= orderList.size();
+        for (int index = 0; index < orderListItems.length; index++) {
+            orderListItems[index].setText(String.valueOf(orderList.get(index)));
+        }
+
     }
     public void clearUi() {
         binding.customerName.setText("");
@@ -307,5 +155,6 @@ public class FirstFragment extends Fragment {
             orderList.set(i, 0);
             orderListItems[i].setText("0");
         }
+        updateUi();
     }
 }

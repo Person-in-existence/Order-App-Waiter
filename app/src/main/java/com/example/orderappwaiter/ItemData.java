@@ -2,6 +2,7 @@ package com.example.orderappwaiter;
 
 import java.util.ArrayList;
 
+@Deprecated
 public class ItemData {
     public final ArrayList<String> itemNames;
     public final ArrayList<Integer> itemQuantities;
