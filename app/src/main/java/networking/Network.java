@@ -90,6 +90,15 @@ public class Network {
     public static void removeOrderByID(long orderID) {
         // Do nothing: this is for kitchen devices only
     }
+
+    public static void disconnect() {
+        new Thread() {
+            public void run() {
+                connection.close(true);
+            }
+        }.start();
+
+    }
     public static void setSessionData(SessionData data) {
         activity.setSessionData(data);
     }
